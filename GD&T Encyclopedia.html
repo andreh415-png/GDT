@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>GD&amp;T Encyclopedia</title>
+<style>
+:root{
+  --paper:#E7EEE3;--card:#F5F8F2;--ink:#16221B;--soft:#4B5A51;--line:#B7C7BA;
+  --accent:#1D5FA6;--accent2:#B23B25;--zone:rgba(29,95,166,.16);--part:#D3DFD0;--grid:rgba(22,34,27,.05);
+  --ok:#1F7A45;--bad:#B23B25;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#0E1713;--card:#15211B;--ink:#E1ECE4;--soft:#9DB1A4;--line:#2D4036;
+  --accent:#6AA8EC;--accent2:#F08A72;--zone:rgba(106,168,236,.22);--part:#22332A;--grid:rgba(225,236,228,.04);
+  --ok:#5CC98A;--bad:#F08A72}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  font:16px/1.55 "Avenir Next","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  padding-bottom:env(safe-area-inset-bottom,0)}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--ink);
+  padding-top:env(safe-area-inset-top,0)}
+.top .wrap{padding-top:10px;padding-bottom:8px}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.brand h1{font-size:19px;margin:0;font-weight:750;letter-spacing:.2px}
+.brand span{font-size:12.5px;color:var(--soft)}
+.search{display:block;width:100%;margin:8px 0 6px;padding:10px 12px;font-size:16px;border:2px solid var(--ink);
+  background:var(--card);color:var(--ink);border-radius:0}
+.tabs{display:flex;gap:0;border:2px solid var(--ink)}
+.tabs button{flex:1;background:var(--card);border:0;border-left:2px solid var(--ink);padding:8px 4px;font-weight:650;font-size:14.5px;cursor:pointer}
+.tabs button:first-child{border-left:0}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+
+/* feature control frames */
+.fcf,.fcfs{display:inline-flex;border:2px solid var(--ink);background:var(--card);color:var(--ink);font-weight:650;font-size:17px;max-width:100%}
+.fcf .cell,.fcfs .cell{display:flex;align-items:center;justify-content:center;gap:5px;padding:5px 10px;min-width:40px;min-height:40px;
+  border-left:2px solid var(--ink);background:transparent;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fcf .cell:first-child,.fcfs .sym{border-left:0}
+.fcfs .rows{display:flex;flex-direction:column}
+.fcfs .row{display:flex;border-top:2px solid var(--ink)}
+.fcfs .row:first-child{border-top:0}
+.fcfs .row .cell:first-child{border-left:2px solid var(--ink)}
+.mod{display:inline-flex;align-items:center;justify-content:center;width:1.25em;height:1.25em;border:1.6px solid currentColor;border-radius:50%;font-size:.78em;font-weight:700;line-height:1}
+.ico{display:inline-block;vertical-align:middle;flex:none}
+.inl{vertical-align:-.12em;margin:0 .05em}
+.basic{display:inline-block;border:1.6px solid currentColor;padding:0 .4em;font-weight:650}
+.fig{margin:14px 0;overflow-x:auto}
+.fig .dimline{font-size:14px;margin-bottom:6px;color:var(--soft)}
+.fig figcaption{font-size:14px;color:var(--soft);margin-top:6px}
+.dia{display:block;width:100%;max-width:440px;height:auto;background:var(--card);border:1.5px solid var(--line)}
+.dia .ln{fill:none;stroke:var(--ink);stroke-width:1.8}
+.dia .part{fill:var(--part);stroke:var(--ink);stroke-width:1.8}
+.dia .zn{fill:var(--zone);stroke:var(--accent);stroke-width:1.4;stroke-dasharray:5 3}
+.dia .zl{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:6 3}
+.dia .ax{fill:none;stroke:var(--accent2);stroke-width:1.8}
+.dia .cl{fill:none;stroke:var(--soft);stroke-width:1.1;stroke-dasharray:9 3 2 3}
+.dia .dm{stroke:var(--soft);stroke-width:1;fill:none}
+.dia .th{stroke:var(--soft);stroke-width:1.1}
+.dia .tx{fill:var(--ink);font-size:11.5px;font-family:inherit}
+.dia .tx2{fill:var(--soft);font-size:11px;font-family:inherit}
+.dia .box{fill:var(--card);stroke:var(--ink);stroke-width:1.5}
+.dia .dot{fill:var(--accent2)}
+.dia .gauge{fill:var(--card);stroke:var(--ink);stroke-width:1.6}
+
+/* hero */
+.hero{padding:22px 0 8px}
+.hero h2{font-size:26px;line-height:1.2;margin:0 0 6px;font-weight:760}
+.hero p{margin:0 0 14px;color:var(--soft)}
+.anat{display:flex;justify-content:flex-start;overflow-x:auto;padding:4px 2px 10px}
+.anat .fcf{font-size:22px;box-shadow:4px 4px 0 var(--line)}
+.anat button.cell{cursor:pointer;min-height:56px;min-width:56px;padding:6px 14px}
+.anat button.cell[aria-pressed="true"]{background:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){.anat button.cell[aria-pressed="true"]{color:#0E1713}}
+.anat-out{border:2px solid var(--ink);background:var(--card);padding:12px 14px;min-height:96px}
+.anat-out b{font-weight:750}
+.anat-out ul{margin:6px 0 0;padding-left:20px}
+
+/* chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:2px solid var(--ink);background:var(--card);padding:5px 12px;font-weight:600;font-size:14.5px;cursor:pointer;border-radius:999px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.count{font-size:13.5px;color:var(--soft);margin:4px 0 10px}
+.muted{color:var(--soft)}
+
+/* entries */
+.entry{background:var(--card);border:2px solid var(--ink);margin:0 0 10px;scroll-margin-top:150px}
+.entry>summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:12px 14px}
+.entry>summary::-webkit-details-marker{display:none}
+.entry .eic{flex:none;width:44px;height:44px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;background:var(--paper)}
+.entry .eic svg{width:28px;height:28px}
+.entry .et{flex:1;min-width:0}
+.entry .et strong{display:block;font-size:17px;line-height:1.25;font-weight:720}
+.entry .et span{display:block;font-size:14px;color:var(--soft);line-height:1.35;margin-top:2px}
+.entry .chev{flex:none;width:12px;height:12px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(45deg);margin-right:4px}
+.entry[open] .chev{transform:rotate(-135deg)}
+.entry .body{padding:2px 14px 16px;border-top:2px solid var(--line)}
+.body h4{margin:18px 0 4px;font-size:15.5px;font-weight:750}
+.body p{margin:8px 0}
+.body ul,.body ol{margin:6px 0;padding-left:22px}
+.body li{margin:3px 0}
+.note{border-left:5px solid var(--accent);background:var(--zone);padding:8px 12px;margin:12px 0;font-size:15px}
+.warn{border-left-color:var(--accent2);background:rgba(178,59,37,.12)}
+.tbl{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{border:1.5px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--paper);font-weight:700}
+code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+
+/* symbols */
+.sgroup{font-size:17px;margin:18px 0 8px;font-weight:750}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.scard{background:var(--card);border:2px solid var(--ink);padding:10px;display:flex;flex-direction:column;gap:6px}
+.scard .sico{height:42px;display:flex;align-items:center;font-size:24px;font-weight:700}
+.scard .sico svg{width:34px;height:34px}
+.scard b{font-size:15px;line-height:1.25}
+.scard span{font-size:13.5px;color:var(--soft);line-height:1.35}
+
+/* tools */
+.u-in{display:none}
+.imp .u-mm{display:none}
+.imp .u-in{display:inline}
+.imp .ub.u-in{display:block}
+.unitchk{display:flex;align-items:center;gap:7px;font-size:14.5px;font-weight:650;cursor:pointer}
+.unitchk input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.unitbar{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--ink);padding:10px 14px;margin:0 0 16px;font-weight:650;cursor:pointer}
+.unitbar input{width:24px;height:24px;accent-color:var(--accent);flex:none}
+.unitbar small{display:block;font-weight:400;color:var(--soft);font-size:13.5px}
+.tool{background:var(--card);border:2px solid var(--ink);padding:14px;margin:0 0 16px}
+.tool h3{margin:0 0 4px;font-size:18px}
+.tool p.lead{margin:0 0 10px;color:var(--soft);font-size:14.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fld label{display:block;font-size:13.5px;color:var(--soft);margin-bottom:2px}
+.fld input,.fld select,.fld textarea{width:100%;padding:9px 10px;font-size:16px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:0}
+.fld.wide{grid-column:1/-1}
+.res{margin-top:12px;border-top:2px solid var(--line);padding-top:10px}
+.res .kv{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dashed var(--line)}
+.res .kv b{font-variant-numeric:tabular-nums}
+.verdict{margin:10px 0 0;padding:8px 12px;font-weight:700;border:2px solid currentColor}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}
+
+/* glossary */
+.gl dt{font-weight:750;margin-top:12px}
+.gl dd{margin:2px 0 0;color:var(--ink)}
+.gl .si{padding:0}
+.empty{padding:18px;border:2px dashed var(--line);color:var(--soft)}
+footer{margin:26px 0 40px;font-size:13.5px;color:var(--soft);border-top:2px solid var(--ink);padding-top:12px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><h1>GD&amp;T Encyclopedia</h1><label class="unitchk" for="imp"><input type="checkbox" id="imp"><span>Inches</span></label></div>
+    <input id="q" class="search" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Search: flatness, bonus, datum, MMC..." aria-label="Search the encyclopedia">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="lib" aria-selected="true">Library</button>
+      <button role="tab" data-tab="sym" aria-selected="false">Symbols</button>
+      <button role="tab" data-tab="tools" aria-selected="false">Tools</button>
+      <button role="tab" data-tab="gloss" aria-selected="false">Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="t-lib">
+    <div class="hero" id="hero">
+      <h2>Read a feature control frame</h2>
+      <p>Every GD&amp;T callout is a frame like this one. Tap a box to see what it says.</p>
+      <div class="anat"><div class="fcf" id="anat"></div></div>
+      <div class="anat-out" id="anat-out" aria-live="polite"></div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="count" id="lib-count"></div>
+    <div id="lib"></div>
+    <div class="empty" id="lib-empty" hidden></div>
+  </section>
+
+  <section id="t-sym" hidden>
+    <div class="count" id="sym-count" style="margin-top:14px"></div>
+    <div id="sym"></div>
+    <div class="empty" id="sym-empty" hidden></div>
+  </section>
+
+  <section id="t-tools" hidden>
+    <p class="muted" style="margin:14px 0 10px">Quick calculators for the arithmetic GD&amp;T keeps asking for. Tick Inches at the top to switch between metric and imperial.</p>
+
+    <div class="tool" id="tool1">
+      <h3>Bonus tolerance and position check</h3>
+      <p class="lead">Works for a hole or pin with a position tolerance at MMC, at LMC, or regardless of feature size.</p>
+      <div class="grid2">
+        <div class="fld"><label for="c1type">Feature</label><select id="c1type"><option value="int">Hole or slot (internal)</option><option value="ext">Pin or tab (external)</option></select></div>
+        <div class="fld"><label for="c1mod">Tolerance applies</label><select id="c1mod"><option value="M">At MMC</option><option value="L">At LMC</option><option value="R">Regardless of size</option></select></div>
+        <div class="fld"><label for="c1lo" data-base="Lower size limit">Lower size limit</label><input id="c1lo" type="number" inputmode="decimal" step="any" value="10.00"></div>
+        <div class="fld"><label for="c1hi" data-base="Upper size limit">Upper size limit</label><input id="c1hi" type="number" inputmode="decimal" step="any" value="10.20"></div>
+        <div class="fld"><label for="c1act" data-base="Actual (measured) size">Actual (measured) size</label><input id="c1act" type="number" inputmode="decimal" step="any" value="10.10"></div>
+        <div class="fld"><label for="c1tol" data-base="Stated position tolerance (Ø)">Stated position tolerance (Ø)</label><input id="c1tol" type="number" inputmode="decimal" step="any" value="0.20"></div>
+        <div class="fld"><label for="c1dx" data-base="Measured offset in X (optional)">Measured offset in X (optional)</label><input id="c1dx" type="number" inputmode="decimal" step="any" value="0.06"></div>
+        <div class="fld"><label for="c1dy" data-base="Measured offset in Y (optional)">Measured offset in Y (optional)</label><input id="c1dy" type="number" inputmode="decimal" step="any" value="0.08"></div>
+      </div>
+      <div class="res" id="c1out"></div>
+    </div>
+
+    <div class="tool" id="tool2">
+      <h3>Fastener position tolerance</h3>
+      <p class="lead">Fixed and floating fastener formulas. Use MMC sizes: the smallest clearance hole and the largest fastener.</p>
+      <div class="grid2">
+        <div class="fld wide"><label for="c2type">Assembly</label><select id="c2type"><option value="float">Floating fastener (clearance holes in both parts)</option><option value="fixed">Fixed fastener (threaded or pressed in one part)</option></select></div>
+        <div class="fld"><label for="c2h" data-base="Clearance hole at MMC (H)">Clearance hole at MMC (H)</label><input id="c2h" type="number" inputmode="decimal" step="any" value="8.40"></div>
+        <div class="fld"><label for="c2f" data-base="Fastener at MMC (F)">Fastener at MMC (F)</label><input id="c2f" type="number" inputmode="decimal" step="any" value="8.00"></div>
+      </div>
+      <div class="res" id="c2out"></div>
+    </div>
+
+    <div class="tool" id="tool3">
+      <h3>Coordinate tolerance to position zone</h3>
+      <p class="lead">Convert a plus/minus box around a hole into the cylindrical position zone that contains it.</p>
+      <div class="grid2">
+        <div class="fld"><label for="c3x" data-base="Plus/minus in X (±)">Plus/minus in X (±)</label><input id="c3x" type="number" inputmode="decimal" step="any" value="0.10"></div>
+        <div class="fld"><label for="c3y" data-base="Plus/minus in Y (±)">Plus/minus in Y (±)</label><input id="c3y" type="number" inputmode="decimal" step="any" value="0.10"></div>
+      </div>
+      <div class="res" id="c3out"></div>
+    </div>
+
+    <div class="tool" id="tool4">
+      <h3>Tolerance stack-up</h3>
+      <p class="lead">Enter each contributing tolerance as a plus/minus value, separated by spaces or commas.</p>
+      <div class="fld"><label for="c4in" data-base="Tolerances (±)">Tolerances (±)</label><textarea id="c4in" rows="2">0.10, 0.05, 0.15, 0.08</textarea></div>
+      <div class="res" id="c4out"></div>
+    </div>
+  </section>
+
+  <section id="t-gloss" hidden>
+    <div class="count" id="gloss-count" style="margin-top:14px"></div>
+    <dl class="gl" id="gloss"></dl>
+    <div class="empty" id="gloss-empty" hidden></div>
+  </section>
+
+  <footer>
+    This is a study and quick-reference guide based on commonly published interpretations of ASME Y14.5-2018 and ISO 1101. It does not replace the standards. Always check the standard and edition named on your drawing, and confirm the details before using them on production parts.
+  </footer>
+</main>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+
+/* ---------- icons ---------- */
+const SYM={
+ dia:'<circle cx="12" cy="12" r="6.5"/><path d="M6 19 L18 5"/>',
+ straight:'<path d="M3 12 H21"/>',
+ flat:'<path d="M5 18 L9 7 H20 L16 18 Z"/>',
+ circ:'<circle cx="12" cy="12" r="8"/>',
+ cyl:'<circle cx="12" cy="12" r="5"/><path d="M3.5 13.5 L13.5 3.5 M10.5 20.5 L20.5 10.5"/>',
+ pline:'<path d="M3 17 Q12 3 21 17"/>',
+ psurf:'<path d="M3 17 Q12 3 21 17 Z"/>',
+ ang:'<path d="M4 19 L17 6 M4 19 H21"/>',
+ perp:'<path d="M12 5 V19 M5 19 H19"/>',
+ par:'<path d="M8 19 L13 5 M14 19 L19 5"/>',
+ pos:'<circle cx="12" cy="12" r="6"/><path d="M12 3 V21 M3 12 H21"/>',
+ conc:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/>',
+ sym:'<path d="M3 6 H21 M3 18 H21 M1 12 H23"/>',
+ crun:'<path d="M5 19 L18 6 M10 6 H18 V14"/>',
+ trun:'<path d="M3 20 L11 12 M6 12 H11 V17 M12 20 L20 12 M15 12 H20 V17"/>',
+ cbore:'<path d="M5 4 V14 H19 V4"/>',
+ csink:'<path d="M3 5 L12 16 L21 5 M12 16 V20"/>',
+ deep:'<path d="M12 4 V17 M6.5 12 L12 18 L17.5 12 M5 21 H19"/>',
+ arc:'<path d="M4 15 A9 9 0 0 1 20 15 M4 19 H8 M16 19 H20"/>',
+ taper:'<path d="M4 12 L20 5 V19 Z"/>',
+ slope:'<path d="M4 18 H20 L4 8 Z"/>',
+ sq:'<rect x="5" y="5" width="14" height="14"/>',
+ datum:'<rect x="4" y="4" width="16" height="12"/><path d="M12 16 V20 M8 20 H16"/>',
+ target:'<circle cx="12" cy="12" r="8"/><path d="M4 12 H20"/>'
+};
+function icon(k,size,cls){size=size||24;return '<svg class="ico '+(cls||'')+'" viewBox="0 0 24 24" width="'+size+'" height="'+size+'" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+SYM[k]+'</svg>';}
+const mod=l=>'<span class="mod">'+l+'</span>';
+const U=(a,b)=>'<span class="u-mm">'+a+'</span><span class="u-in">'+b+'</span>';
+const TOLMAP={'0.01':'0.0005','0.02':'0.001','0.05':'0.002','0.1':'0.004','0.2':'0.008','0.25':'0.010','0.3':'0.012','0.4':'0.016','0.5':'0.020','0.05/25×25':'0.002/1×1'};
+
+/* ---------- feature control frame renderer ---------- */
+function cellsFor(c){
+  let tol='';
+  if(c.d)tol+=icon('dia',19);
+  if(c.sd)tol+='S'+icon('dia',19);
+  tol+='<span>'+(TOLMAP[c.t]?U(c.t,TOLMAP[c.t]):c.t)+'</span>';
+  (c.m||[]).forEach(m=>{tol+=mod(m)});
+  let h='<span class="cell tol">'+tol+'</span>';
+  (c.r||[]).forEach(r=>{const a=Array.isArray(r)?r:[r];h+='<span class="cell">'+a[0]+(a[1]?mod(a[1]):'')+'</span>'});
+  return h;
+}
+function fcf(c){
+  return '<div class="fcf"><span class="cell">'+icon(c.s,26)+'</span>'+cellsFor(c)+'</div>';
+}
+function fcfStack(s,rows){
+  let h='<div class="fcfs"><span class="cell sym">'+icon(s,26)+'</span><div class="rows">';
+  rows.forEach(r=>{h+='<div class="row">'+cellsFor(r)+'</div>'});
+  return h+'</div></div>';
+}
+const basic=t=>'<span class="basic">'+t+'</span>';
+
+/* ---------- diagrams ---------- */
+const sv=(inner,cap,h)=>'<svg class="dia" viewBox="0 0 260 '+(h||130)+'" role="img" aria-label="'+cap+'">'+inner+'</svg>';
+function hatch(x1,x2,y,step,len){step=step||9;len=len||7;let s='';for(let x=x1;x<=x2;x+=step)s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x-len)+'" y2="'+(y+len)+'" class="th"/>';return s;}
+function dimV(x,y1,y2,label){return '<path class="dm" d="M'+x+' '+y1+' V'+y2+' M'+(x-4)+' '+y1+' H'+(x+4)+' M'+(x-4)+' '+y2+' H'+(x+4)+'"/><text x="'+(x+7)+'" y="'+((y1+y2)/2+4)+'" class="tx">'+label+'</text>';}
+function dimH(y,x1,x2,label){return '<path class="dm" d="M'+x1+' '+y+' H'+x2+' M'+x1+' '+(y-4)+' V'+(y+4)+' M'+x2+' '+(y-4)+' V'+(y+4)+'"/><text x="'+((x1+x2)/2)+'" y="'+(y-6)+'" text-anchor="middle" class="tx">'+label+'</text>';}
+function boxed(cx,cy,t){const w=8+t.length*7;return '<rect x="'+(cx-w/2)+'" y="'+(cy-8)+'" width="'+w+'" height="16" class="box"/><text x="'+cx+'" y="'+(cy+4)+'" text-anchor="middle" class="tx">'+t+'</text>';}
+function datumBox(x,y,l){return '<rect x="'+x+'" y="'+y+'" width="18" height="16" class="box"/><text x="'+(x+9)+'" y="'+(y+12)+'" text-anchor="middle" class="tx">'+l+'</text>';}
+
+const D={};
+D.flat=sv('<path class="part" d="M30 104 V52 C60 47 80 60 112 54 S168 47 196 56 S222 52 230 51 V104 Z"/><rect x="30" y="40" width="200" height="22" class="zn"/>'+dimV(243,40,62,'t'),'Flatness zone: two parallel planes with the surface between them');
+D.straightAxis=sv('<rect x="30" y="42" width="200" height="46" class="part"/><rect x="30" y="56" width="200" height="18" class="zn"/><path class="ax" d="M30 65 C70 61 100 69 135 64 S200 60 230 66"/><path class="cl" d="M24 65 H236" style="opacity:.0"/>'+dimV(243,56,74,'Øt'),'Straightness of an axis: a cylindrical zone containing the derived median line');
+(function(){let p='';for(let i=0;i<=72;i++){const a=i/72*Math.PI*2,r=39.5+3*Math.sin(3*a+.4);p+=(i?'L':'M')+(95+r*Math.cos(a)).toFixed(1)+' '+(65+r*Math.sin(a)).toFixed(1)+' ';}
+D.circ=sv('<path class="zn" fill-rule="evenodd" d="M49 65 a46 46 0 1 0 92 0 a46 46 0 1 0 -92 0 M62 65 a33 33 0 1 0 66 0 a33 33 0 1 0 -66 0"/><path class="ax" d="'+p+'Z"/><path class="dm" d="M128 65 H141 M128 61 V69 M141 61 V69"/><text x="148" y="69" class="tx">t</text><text x="160" y="52" class="tx2">Checked in each</text><text x="160" y="66" class="tx2">cross-section,</text><text x="160" y="80" class="tx2">square to the axis</text>','Circularity zone: two concentric circles in a cross-section');})();
+D.cyl=sv('<path class="zn" fill-rule="evenodd" d="M21 65 a34 34 0 1 0 68 0 a34 34 0 1 0 -68 0 M30 65 a25 25 0 1 0 50 0 a25 25 0 1 0 -50 0"/><path class="part" d="M118 40 C150 36 190 44 242 39 V90 C200 94 160 86 118 91 Z"/><rect x="118" y="34" width="124" height="11" class="zn"/><rect x="118" y="85" width="124" height="11" class="zn"/><text x="180" y="118" text-anchor="middle" class="tx2">Same radial gap t along the full length</text>','Cylindricity zone: two coaxial cylinders');
+D.perp=sv(hatch(30,160,100)+'<path class="ln" d="M30 100 H160" style="stroke-width:2.6"/><path class="part" d="M60 100 V36 H149 C153 52 146 64 151 76 S155 90 150 100 Z"/><rect x="140" y="30" width="20" height="70" class="zn"/>'+dimH(22,140,160,'t')+datumBox(180,92,'A'),'Perpendicularity zone: two parallel planes square to datum A');
+D.par=sv(hatch(30,230,104)+'<path class="ln" d="M30 104 H230" style="stroke-width:2.6"/><path class="part" d="M50 104 V56 C80 52 100 60 130 55 S180 52 210 57 V104 Z"/><rect x="50" y="46" width="160" height="18" class="zn"/>'+dimV(222,46,64,'t')+datumBox(120,112,'A'),'Parallelism zone: two parallel planes parallel to datum A',130);
+D.ang=sv(hatch(30,230,100)+'<path class="ln" d="M30 100 H230" style="stroke-width:2.6"/><path class="part" d="M50 100 L190 50 V100 Z"/><path class="zn" d="M80 80.8 L187.3 42.5 L192.7 57.5 L80 97.7 Z"/><text x="102" y="94" class="tx">basic angle</text>','Angularity zone: two parallel planes at the basic angle to datum A');
+const posD=(A,B)=>sv('<rect x="60" y="15" width="140" height="90" class="part"/><path class="cl" d="M50 60 H210 M130 8 V112"/><circle cx="130" cy="60" r="26" class="zn"/><circle cx="137" cy="55" r="13" class="ln"/><circle cx="137" cy="55" r="2.6" class="dot"/><path class="dm" d="M60 118 H130 M60 114 V122 M130 114 V122"/>'+boxed(95,118,A)+'<path class="dm" d="M38 60 V105 M34 60 H42 M34 105 H42"/>'+boxed(38,83,B)+'<text x="165" y="40" class="tx">Øt zone</text><text x="165" y="88" class="tx2">hole axis</text>','Position zone: a cylinder around the true position');
+D.pos='<div class="ub u-mm">'+posD('30','20')+'</div><div class="ub u-in">'+posD('1.250','0.800')+'</div>';
+D.profile=sv('<path class="zn" d="M30 82 H82 V42 H178 V82 H230 V98 H162 V58 H98 V98 H30 Z"/><path class="cl" d="M30 90 H90 V50 H170 V90 H230"/><path class="ax" d="M30 90 H88 V51 H171 V91 H230"/>'+dimV(243,82,98,'t'),'Profile zone: a uniform band around the true profile');
+function runShaft(extra,cap){return sv('<rect x="50" y="44" width="150" height="42" class="part"/><path class="cl" d="M30 65 H220"/>'+extra,cap);}
+D.runC=runShaft('<path class="ln" d="M125 44 V24"/><circle cx="125" cy="14" r="10" class="gauge"/><path class="ln" d="M125 14 L129 9"/><path class="ln" d="M212 52 a20 20 0 0 1 0 26 M212 78 l-5 -1 M212 78 l1 -5" /><text x="130" y="112" text-anchor="middle" class="tx2">Rotate 360° about the datum axis, read at one section</text>','Circular runout: indicator reading at a single cross-section');
+D.runT=runShaft('<path class="ln" d="M85 44 V24"/><circle cx="85" cy="14" r="10" class="gauge"/><path class="ln" d="M175 44 V24" style="stroke-dasharray:4 3"/><circle cx="175" cy="14" r="10" class="gauge" style="stroke-dasharray:4 3"/><path class="dm" d="M98 14 H162 M98 14 l6 -3 M98 14 l6 3 M162 14 l-6 -3 M162 14 l-6 3"/><path class="ln" d="M212 52 a20 20 0 0 1 0 26 M212 78 l-5 -1 M212 78 l1 -5"/><text x="130" y="112" text-anchor="middle" class="tx2">Rotate while the indicator travels the full length</text>','Total runout: indicator travels along the surface while the part rotates');
+D.drf=sv('<path class="part" d="M60 50 H140 V100 H60 Z"/><path class="part" d="M60 50 L100 30 H180 L140 50 Z"/><path class="part" d="M140 50 L180 30 V80 L140 100 Z"/><circle cx="75" cy="64" r="3.4" class="dot"/><circle cx="125" cy="64" r="3.4" class="dot"/><circle cx="100" cy="88" r="3.4" class="dot"/><circle cx="108" cy="40" r="3.4" class="dot"/><circle cx="150" cy="40" r="3.4" class="dot"/><circle cx="160" cy="62" r="3.4" class="dot"/><text x="100" y="118" text-anchor="middle" class="tx">A: 3 points</text><text x="190" y="26" class="tx">B: 2 pts</text><text x="190" y="68" class="tx">C: 1 pt</text>','Datum reference frame: primary touches at three points, secondary at two, tertiary at one');
+D.envelope=sv('<rect x="35" y="44" width="190" height="42" class="zl"/><path class="part" d="M35 52 C90 46 160 62 225 56 L225 80 C160 86 90 70 35 76 Z"/><text x="130" y="108" text-anchor="middle" class="tx2">Perfect-form boundary at MMC</text><text x="130" y="122" text-anchor="middle" class="tx2">(the part may not cross it)</text>','Rule 1: a feature of size may not extend outside a perfect-form boundary at MMC');
+D.proj=sv('<rect x="70" y="70" width="120" height="40" class="part"/><path class="ln" d="M122 70 L120 110 M138 70 L136 110"/><rect x="118" y="36" width="26" height="34" class="zn"/><path class="ax" d="M129 112 L131 24"/>'+dimV(158,36,70,'P')+'<text x="205" y="94" class="tx2">tilted hole</text>','Projected tolerance zone: the zone extends above the part by height P');
+D.coord=sv('<rect x="70" y="35" width="60" height="60" class="part"/><circle cx="100" cy="65" r="42.4" class="zn"/><circle cx="100" cy="65" r="30" class="zl"/><path class="cl" d="M52 65 H148 M100 17 V113"/><text x="156" y="58" class="tx">Square ±x, ±y</text><text x="156" y="76" class="tx">Circle Ø = 2√(x²+y²)</text><text x="156" y="94" class="tx2">holds the square corners</text>','A square plus/minus zone and the cylindrical zone that contains it');
+
+const fig=(inner,cap,dim)=>'<figure class="fig">'+(dim?'<div class="dimline">'+dim+'</div>':'')+inner+(cap?'<figcaption>'+cap+'</figcaption>':'')+'</figure>';
+const FCF=(c,cap,dim)=>fig(fcf(c),cap,dim);
+const STK=(s,rows,cap,dim)=>fig(fcfStack(s,rows),cap,dim);
+const DIA=(k,cap)=>fig(D[k],cap);
+const P=s=>'<p>'+s+'</p>';
+const H=s=>'<h4>'+s+'</h4>';
+const UL=a=>'<ul>'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+const OL=a=>'<ol>'+a.map(x=>'<li>'+x+'</li>').join('')+'</ol>';
+const NOTE=s=>'<div class="note">'+s+'</div>';
+const WARN=s=>'<div class="note warn">'+s+'</div>';
+const TBL=(h,rows)=>'<div class="tbl"><table><thead><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
+const L=(id,t)=>'<a href="#" data-go="'+id+'">'+t+'</a>';
+
+/* ---------- entries ---------- */
+const CATS=[['all','All'],['basics','Basics'],['form','Form'],['profile','Profile'],['orient','Orientation'],['loc','Location'],['run','Runout'],['datum','Datums'],['mod','Modifiers'],['prac','Practice']];
+const E=[];
+const add=(id,cat,title,ico,blurb,kw,body)=>E.push({id,cat,title,ico,blurb,kw,body:body.join('')});
+
+/* BASICS */
+add('what-is','basics','What GD&T is','pos','A symbolic language that defines allowable variation in form, orientation, location and runout.','gdt geometric dimensioning tolerancing introduction overview basics asme iso',[
+ P('Geometric dimensioning and tolerancing (GD&T) is a symbolic language on engineering drawings. It states how much a feature may vary in form, orientation, location and runout, measured from datums, so parts work and are interchangeable.'),
+ P('Plus/minus tolerances on coordinates create a square zone, say nothing about form, and depend on which edge you measure from. GD&T gives each feature a defined zone and a defined starting point, so the designer, machinist and inspector read the same requirement.'),
+ H('The families of control'),
+ UL(['<b>Form</b> controls the shape of one feature, with no datum: straightness, flatness, circularity, cylindricity.',
+  '<b>Orientation</b> controls angle relative to a datum: perpendicularity, parallelism, angularity.',
+  '<b>Location</b> controls where a feature is: position (plus the legacy concentricity and symmetry).',
+  '<b>Profile</b> controls the outline of a line or surface, with or without datums.',
+  '<b>Runout</b> controls surface variation as the part turns about a datum axis: circular and total.']),
+ H('Why use it'),
+ UL(['Zones match function, such as a bolt fitting through a hole.','Cylindrical zones give about 57% more area than the square zone from coordinate tolerances (see '+L('coordzone','coordinate vs position zone')+').','Modifiers such as MMC turn unused size tolerance into extra position tolerance (see '+L('bonus','bonus tolerance')+').','Functional gages can check the part directly.']),
+ H('Standards'),
+ UL(['<b>ASME Y14.5-2018</b>: the main US standard. Its mathematical companion is ASME Y14.5.1.','<b>ISO 1101</b> and the wider GPS family (ISO 5459 for datums, ISO 8015 for the fundamental principles) cover the international system. '+L('iso-vs-asme','Differences are summarised here')+'.'])
+]);
+
+add('fcf','basics','The feature control frame','pos','The rectangular callout that carries a geometric tolerance, read left to right.','feature control frame callout reading symbol zone tolerance modifier datum compartment',[
+ P('A feature control frame (FCF) is a box divided into compartments. Read it left to right:'),
+ OL(['<b>Symbol</b>: which characteristic is controlled.','<b>Zone shape and value</b>: a ⌀ prefix means a cylindrical zone; S⌀ means spherical; no prefix means a band between parallel lines or planes. The number is the total width of the zone.','<b>Modifier</b> (optional): a circled letter such as M for MMC.','<b>Datum references</b> (if needed): in order of precedence, primary first. A hyphen between letters, such as A-B, means a common datum.']),
+ FCF({s:'pos',d:true,t:'0.2',m:['M'],r:['A','B','C']},'Position of a hole axis to a Ø'+U('0.2','0.008')+' zone at MMC, relative to datums A, B and C.'),
+ FCF({s:'flat',t:'0.05'},'Flatness: a surface must lie between two parallel planes '+U('0.05','0.002')+' apart. No datum.'),
+ H('Where the frame is attached'),
+ UL(['Attached to the <b>size dimension</b> (or in line with it): controls the axis or center plane of a feature of size.','Attached to a <b>surface or its extension line</b>, away from the size dimension: controls the surface itself.','A note above the frame, such as <code>4X</code>, says how many features it applies to.']),
+ NOTE('The tolerance number is the <b>whole</b> zone width, not plus/minus. A position tolerance of ⌀'+U('0.2','0.008')+' allows the axis to be '+U('0.1','0.004')+' off center in any direction.')
+]);
+
+add('features','basics','Features and features of size','cyl','Surfaces, holes and pins, and the subset that carries a size dimension.','feature of size fos regular irregular hole pin slot tab width thickness',[
+ P('A <b>feature</b> is any physical portion of a part: a surface, hole, pin, slot or edge.'),
+ P('A <b>feature of size</b> is a cylindrical or spherical surface, or a set of two opposed parallel surfaces, that is associated with a size dimension. Holes, pins, slots, tabs and a plate\'s thickness are all features of size.'),
+ H('Why the difference matters'),
+ UL(['Only features of size can use MMC and LMC modifiers, and only they have an axis or center plane.','The axis or center plane of a feature of size is a <b>derived</b> element, not the surface you touch.','Geometric tolerances applied to a feature of size act on its derived median line or plane when the frame is attached to the size dimension.']),
+ P('The 2009 and later standards also recognise irregular features of size, such as unusual shapes that a boundary can contain or be contained by. Check the standard if your part has one.')
+]);
+
+add('rule1','basics','Rule #1: the envelope principle','cyl','Limits of size control form: a feature of size cannot cross a perfect-form boundary at MMC.','rule 1 envelope principle taylor limits of size form independency',[
+ P('Rule #1 says that where only limits of size are given, the surface of a regular feature of size may not extend beyond a perfect-form boundary at its maximum material condition.'),
+ DIA('envelope','The shaft can bow, but only inside the MMC envelope.'),
+ H('What it does'),
+ UL(['At MMC the feature must have perfect form.','As the feature departs from MMC toward LMC, form error is allowed to grow, by up to the size tolerance.','Size at any cross-section may never go below LMC (a two-point measurement).']),
+ H('What it does not do'),
+ UL(['It does not control orientation or location between different features.','It does not apply to stock such as bar or sheet, or to parts with a free-state variation noted.','It can be switched off for a feature by the independency symbol (circled I).']),
+ NOTE('<b>Example.</b> '+U('A pin of Ø10.00 to Ø10.05 must fit inside a perfect Ø10.05 cylinder. At Ø10.05 the pin must be perfectly straight and round. At Ø10.00 it may be out of form by up to 0.05.','A pin of Ø0.500 to Ø0.502 must fit inside a perfect Ø0.502 cylinder. At Ø0.502 the pin must be perfectly straight and round. At Ø0.500 it may be out of form by up to 0.002.')),
+ WARN('<b>ISO difference.</b> ISO uses the independence principle by default (ISO 8015): size and form are controlled separately. An envelope requirement needs the circled E symbol.')
+]);
+
+add('tolzone','basics','Tolerance zones','pos','The space within which a feature, axis or center plane must lie.','tolerance zone cylindrical spherical parallel planes boundary shape',[
+ P('Every geometric tolerance defines a <b>tolerance zone</b>. If the feature (surface, axis or center plane) stays entirely inside the zone, the part passes.'),
+ TBL(['Zone','Written as','Used by'],[
+  ['Two parallel planes or lines','Plain number','Flatness, straightness of a surface line, perpendicularity of a surface, a slot\'s center plane'],
+  ['Cylinder','⌀ before the number','Position, perpendicularity or straightness of an axis'],
+  ['Sphere','S⌀ before the number','Position of a point or ball center'],
+  ['Two concentric circles','Plain number','Circularity'],
+  ['Two coaxial cylinders','Plain number','Cylindricity, total runout of a round surface'],
+  ['Uniform boundary around a profile','Plain number','Profile of a line or surface']]),
+ P('Whether the zone is fixed in space or may float depends on the datum references and on how the datum features are simulated.')
+]);
+
+add('basicdim','basics','Basic dimensions','pos','Theoretically exact values, shown in a box, that place tolerance zones.','basic dimension theoretically exact box true position',[
+ P('A <b>basic dimension</b> is a theoretically exact value shown in a box, like '+basic(U('25','1.000'))+'. It has no tolerance of its own. It locates or orients a tolerance zone, or defines a true profile.'),
+ UL(['The permitted variation comes from the feature control frame, not from the title block.','Basic dimensions replace plus/minus tolerances on located features, which avoids stacking tolerances.','Every dimension that locates a toleranced feature must be basic, or tied to a datum or model that defines it.']),
+ P('A dimension in parentheses is a <b>reference</b> dimension: informational only, not used for inspection.')
+]);
+
+add('stackup','basics','Tolerance stack-up basics','pos','Adding up variation along a chain of parts to predict gaps and fits.','stack up tolerance analysis worst case rss statistical gap',[
+ P('A stack-up adds the variation of every part in a chain to predict the smallest and largest gap or interference.'),
+ H('Two common methods'),
+ UL(['<b>Worst case</b>: add every tolerance. It guarantees assembly if all parts are in tolerance, but it is the most expensive to design to.','<b>RSS</b> (root sum of squares): take the square root of the sum of squared tolerances. It assumes variation is random and centered, so the result is smaller and needs process data to back it up.']),
+ NOTE('<b>Example.</b> '+U('Tolerances of ±0.10, ±0.05, ±0.15 and ±0.08: worst case is ±0.38. RSS is √(0.01 + 0.0025 + 0.0225 + 0.0064) = ±0.203.','Tolerances of ±0.004, ±0.002, ±0.006 and ±0.003: worst case is ±0.015. RSS is √(0.000016 + 0.000004 + 0.000036 + 0.000009) = ±0.0081.')),
+ H('GD&T-specific traps'),
+ UL(['Convert each contributor to an equivalent plus/minus value (half of a total zone width).','Remember bonus tolerance and datum shift: with MMC the real variation can be larger than the stated value at LMC.','Include form and orientation errors when they are not already contained inside the size limits.']),
+ P('The <b>Tools</b> tab has a calculator for worst case and RSS.')
+]);
+
+/* DATUMS */
+add('datums','datum','Datums and datum features','datum','Theoretically exact references, and the real features that establish them.','datum datum feature simulator letter label symbol reference',[
+ P('A <b>datum</b> is a theoretically exact point, line or plane that a measurement starts from. You cannot touch a datum. You touch a <b>datum feature</b>, a real surface or feature of size on the part, and a <b>datum feature simulator</b> (such as a surface plate or gage pin) stands in for the datum.'),
+ FCF({s:'perp',t:'0.1',r:['A']},'Perpendicularity to datum A. The datum feature is identified elsewhere with a boxed letter and a triangle.'),
+ H('Naming datums'),
+ UL(['Use capital letters in boxes. Skip I, O and Q; after Z use AA, BB and so on.','Choose datum features that are functional (mating surfaces), stable, accessible and large enough to measure.','A <b>common datum</b> is written as A-B: both features together establish one datum.']),
+ P('For a flat datum feature the simulator touches the high points. For a feature of size, the simulator depends on the modifier: see '+L('datumfos','datum features of size')+'.')
+]);
+
+add('drf','datum','Datum reference frame (3-2-1)','datum','Three perpendicular planes that remove all six degrees of freedom, in order of precedence.','datum reference frame drf degrees of freedom 3-2-1 primary secondary tertiary precedence',[
+ P('A part in space has six degrees of freedom: three translations and three rotations. A <b>datum reference frame</b> (DRF) uses up to three datum features, in order, to constrain them.'),
+ DIA('drf','Primary A touches at three points, secondary B at two, tertiary C at one.'),
+ TBL(['Datum','Contact','Constrains'],[
+  ['Primary (first letter)','3 points on a plane','1 translation and 2 rotations'],
+  ['Secondary','2 points on a plane','1 translation and 1 rotation'],
+  ['Tertiary','1 point on a plane','The last translation']]),
+ UL(['The <b>order of letters</b> in the frame matters: change it and you change which feature the part rests on.','A cylindrical primary datum axis constrains four degrees of freedom (two translations, two rotations). The secondary and tertiary datums handle the rest, such as position along the axis and angular clock position.','You do not always need three datums. Orientation controls usually need one.']),
+ NOTE('Choose the primary datum as the surface that best represents how the part sits and mates in the assembly, not whichever edge is convenient to measure.')
+]);
+
+add('datumfos','datum','Datum features of size and datum shift','datum','MMC, LMC or RFS on a datum letter decides whether the datum can shift.','datum feature of size datum shift mmc rfs simulator virtual condition floating',[
+ P('When a datum feature is a feature of size (a hole, pin or slot), its modifier decides how the part may sit on the simulator.'),
+ TBL(['Datum letter','Simulator','Effect'],[
+  ['Plain letter (RFS)','Adjustable: expands or contracts to touch the feature','No shift. Position is measured from the true axis or center plane.'],
+  ['Letter with circled M','Fixed-size boundary at the virtual condition','The part can float by the difference between its actual size and the boundary. This is datum shift.'],
+  ['Letter with circled L','Fixed-size boundary at the LMC virtual condition','Float grows as the size departs from LMC.']]),
+ P('Datum shift is useful when mating parts also float relative to each other: it gives extra tolerance for free. It is a poor choice when the datum axis is needed for precise alignment, such as a bearing journal.'),
+ FCF({s:'pos',d:true,t:'0.3',m:['M'],r:['A',['B','M']]},'Position at MMC to datum A, with datum feature B also referenced at MMC.')
+]);
+
+add('targets','datum','Datum targets','target','Points, lines or small areas used when the whole surface is rough or uneven.','datum target point line area castings forgings sheet metal movable',[
+ P('For castings, forgings, sheet metal and other uneven surfaces, a whole-surface datum would just rock on high spots. <b>Datum targets</b> name specific points, lines or small areas that touch the simulator instead.'),
+ UL(['<b>Target point</b>: marked with an X, contacted by a pointed simulator.','<b>Target line</b>: an X on an edge view with a line, contacted by a straight edge.','<b>Target area</b>: a hatched shape with a stated size, contacted by a flat pad.']),
+ P('A datum target symbol is a circle split in half: the lower half has the datum letter and target number (such as A1), and the upper half has the area size, if any. Targets are located by basic dimensions.'),
+ P('A primary plane needs three targets, a secondary two and a tertiary one, matching the 3-2-1 idea. The 2018 standard also adds movable datum targets for features that must be held while they float.')
+]);
+
+/* MODIFIERS & CONCEPTS */
+add('mmc','mod','MMC, LMC and RFS','pos','The three material conditions: most material, least material, or regardless of size.','mmc lmc rfs maximum material condition least material regardless of feature size circled m circled l',[
+ P('A feature of size has a range of actual sizes. The <b>material condition</b> names where in that range a tolerance applies.'),
+ TBL(['Condition','Meaning','Hole','Pin'],[
+  ['MMC','Most material','Smallest hole','Largest pin'],
+  ['LMC','Least material','Largest hole','Smallest pin'],
+  ['RFS','Regardless of feature size','Tolerance does not change with size','Tolerance does not change with size']]),
+ UL(['<b>RFS is the default</b> for every geometric tolerance in ASME Y14.5-2009 and later. The old circled S is gone.','<b>MMC</b> is used for fits and assembly: a bolt must clear a hole, and bonus tolerance reflects that.','<b>LMC</b> is used to protect a minimum wall thickness or to control the maximum clearance for a press or seal.','MMC and LMC apply only to features of size (and to datum features of size). Surfaces have no material condition.']),
+ FCF({s:'pos',d:true,t:'0.2',m:['M'],r:['A','B']},'Circled M after the tolerance: MMC applies.'),
+ FCF({s:'pos',d:true,t:'0.2',m:['L'],r:['A','B']},'Circled L after the tolerance: LMC applies.')
+]);
+
+add('bonus','mod','Bonus tolerance','pos','Extra tolerance gained as a feature departs from MMC (or LMC).','bonus tolerance mmc lmc extra position hole size departure',[
+ P('When a position (or similar) tolerance is stated at MMC, you get <b>bonus tolerance</b>: the stated tolerance grows by exactly how far the feature size departs from MMC. The total available tolerance is:'),
+ P('<code>total tolerance = stated tolerance + bonus</code>'),
+ NOTE('<b>Example.</b> '+U('A hole is Ø10.00 to Ø10.20 with position ⌀0.20 at MMC. MMC is 10.00 (the smallest hole).','A hole is Ø0.500 to Ø0.510 with position ⌀0.010 at MMC. MMC is 0.500 (the smallest hole).')),
+ TBL(['Hole size','Bonus','Position zone allowed'],[
+  [U('10.00 (MMC)','0.500 (MMC)'),U('0.00','0.000'),U('⌀0.20','⌀0.010')],[U('10.05','0.502'),U('0.05','0.002'),U('⌀0.25','⌀0.012')],[U('10.10','0.505'),U('0.10','0.005'),U('⌀0.30','⌀0.015')],[U('10.20 (LMC)','0.510 (LMC)'),U('0.20','0.010'),U('⌀0.40','⌀0.020')]]),
+ UL(['The largest possible bonus equals the size tolerance (here '+U('0.20','0.010')+').','For a pin, bonus is MMC minus actual size, since MMC is the largest pin.','With LMC, bonus grows as the size departs from LMC instead.','RFS gives no bonus.']),
+ P('The <b>Tools</b> tab has a calculator that also checks measured offsets.')
+]);
+
+add('virtual','mod','Virtual and resultant condition','pos','The constant boundary made by size and geometric tolerance together.','virtual condition resultant condition boundary gage pin mmc lmc worst case',[
+ P('The <b>virtual condition</b> is the single worst-case boundary that results from the size limit and the geometric tolerance together. A functional gage is built to this size.'),
+ TBL(['Feature, modifier','Virtual condition'],[
+  ['Internal (hole) at MMC','MMC size − geometric tolerance'],
+  ['External (pin) at MMC','MMC size + geometric tolerance'],
+  ['Internal at LMC','LMC size + geometric tolerance'],
+  ['External at LMC','LMC size − geometric tolerance']]),
+ NOTE('<b>Example.</b> '+U('A hole Ø10.00 to 10.20 with ⌀0.20 at MMC has a virtual condition of 10.00 − 0.20 = <b>9.80</b>. A Ø9.80 gage pin in the right place must go in.','A hole Ø0.500 to 0.510 with ⌀0.010 at MMC has a virtual condition of 0.500 − 0.010 = <b>0.490</b>. A Ø0.490 gage pin in the right place must go in.')),
+ P('The <b>resultant condition</b> is the opposite boundary, at the other size limit: it adds the geometric tolerance and the bonus that has accumulated. In the example it is '+U('10.20 + 0.40 = 10.60','0.510 + 0.020 = 0.530')+' (the largest hole with its largest allowed shift).')
+]);
+
+add('fasteners','mod','Fixed and floating fastener formulas','pos','How to size a position tolerance for bolts and clearance holes.','fixed floating fastener formula clearance hole bolt position tolerance projected',[
+ P('Start from the worst case: the smallest clearance hole (H) and the largest fastener (F), both at MMC.'),
+ TBL(['Case','Formula','Meaning'],[
+  ['Floating fastener','T = H − F','Both parts have clearance holes. The bolt can sit anywhere in the gap. T is the total position tolerance shared by the two parts.'],
+  ['Fixed fastener','T = (H − F) / 2','One part has the thread or press-fit stud, so only half the clearance is available to each part.']]),
+ NOTE('<b>Example.</b> '+U('M8 bolt, F = 8.00, with a clearance hole of H = 8.40 at MMC. Floating: T = 0.40 total. Fixed: T = 0.20 per part.','5/16 in bolt, F = 0.3125, with a clearance hole of H = 0.344 at MMC. Floating: T = 0.0315 total. Fixed: T = 0.0158 per part.')),
+ UL(['These formulas assume perfect orientation of the threaded or pressed hole. Add a '+L('projected','projected tolerance zone')+' when it can lean.','Many shops use a smaller value than the formula to leave margin.','Apply the result as a position tolerance at MMC for both the clearance holes and the fixed-fastener holes.'])
+]);
+
+add('coordzone','mod','Coordinate vs position zone','pos','Why a cylindrical position zone beats a plus/minus square.','coordinate tolerance square zone cylindrical position conversion plus minus 57 percent',[
+ DIA('coord','A ±x, ±y box and the cylindrical zone that holds its corners.'),
+ P('A coordinate (plus/minus) tolerance makes a square zone. But a hole that lands in the corner of that square is farther from nominal than one on the edge. If you accept the corner, the matching cylindrical zone has diameter <code>2 × √(x² + y²)</code>.'),
+ UL([U('For ±0.10 in both directions, the circumscribed cylinder is ⌀0.283.','For ±0.005 in both directions, the circumscribed cylinder is ⌀0.0141.'),'A circle of that size has about 57% more area than the square, so more good parts pass without any loss of function.','If you want a circle that sits inside the square, its diameter is twice the smaller of x and y.']),
+ P('The <b>Tools</b> tab has a converter.')
+]);
+
+add('composite','loc','Composite and multi-segment frames','pos','Stacked frames: pattern location above, feature-to-feature refinement below.','composite position pltzf frtzf pattern locating feature relating two single segment stacked',[
+ P('A composite frame has one symbol and two (or more) rows.'),
+ STK('pos',[{d:true,t:'0.5',r:['A','B','C']},{d:true,t:'0.2',r:['A']}],'Composite position: upper row locates the pattern, lower row refines it.'),
+ UL(['<b>Upper segment (PLTZF</b>, pattern-locating tolerance zone framework): the hole group is located relative to the datum frame within ⌀'+U('0.5','0.020')+'.','<b>Lower segment (FRTZF</b>, feature-relating tolerance zone framework): the holes must stay within ⌀'+U('0.2','0.008')+' of each other and of their basic spacing, and be oriented to the datums listed there. The pattern as a whole may float inside the upper zone.','The lower tolerance is always smaller than the upper one.']),
+ P('Two separate single-segment frames, stacked, behave differently: each segment fully controls location relative to its own datums, so the lower frame also locates the pattern.'),
+ NOTE('Use composite when pattern-to-datum location can be loose but hole-to-hole spacing must be tight, such as a flange that bolts to a mating pattern.')
+]);
+
+add('patterns','mod','Patterns and simultaneous requirements','pos','Notes such as 4X, SIM REQT and SEP REQT, and how groups are checked together.','pattern 4x nx sim reqt sep reqt simultaneous separate requirement group holes',[
+ P('A number and X above a frame (such as <code>6X</code>) means the control applies to that many features, each on its own, using the same datum frame.'),
+ UL(['<b>Simultaneous requirement</b> means features located in the same datum frame are checked together as one pattern, so the part is held in a single setup.','<b>Separate requirement</b> (<code>SEP REQT</code>) means each frame is evaluated alone, so the part can be re-fixtured between them.']),
+ P('Which of the two is the default has shifted between editions. Many drawings state it explicitly (<code>SIM REQT</code> or <code>SEP REQT</code>) to avoid doubt, and you should do the same.')
+]);
+
+add('projected','mod','Projected tolerance zone','pos','Extends the zone beyond the part to model a mating fastener or pin.','projected tolerance zone circled p threaded press fit hole stud height orientation',[
+ P('A hole that leans a little produces a much larger error at the end of the bolt that sticks out of it than at the part surface. A <b>projected tolerance zone</b> measures the position over the height of the mating part instead of inside the hole.'),
+ DIA('proj','The zone extends above the surface by height P.'),
+ FCF({s:'perp',d:true,t:'0.25',m:['P'],r:['A']},'Circled P: the zone is projected. The height is given beside the frame or in the drawing.'),
+ UL(['Used for threaded holes and press-fit pins.','The projected height equals the thickness of the part that will be fastened (or the pin\'s protrusion).','It works with perpendicularity or position.'])
+]);
+
+add('othermods','mod','Other modifiers and symbols','pos','Free state, tangent plane, independency, unequal profile, statistical, continuous feature, between, all around.','free state f tangent plane t independency i unequally disposed u statistical st continuous feature cf between all around all over translation dynamic profile',[
+ TBL(['Symbol','Name','What it does'],[
+  [mod('F'),'Free state','Allows the tolerance to apply to the part before it is restrained, for flexible parts.'],
+  [mod('T'),'Tangent plane','Applies orientation to the plane touching the high points, not every point of the surface.'],
+  [mod('I'),'Independency','Turns off Rule #1 for a feature: size and form are independent.'],
+  [mod('U'),'Unequally disposed profile','Shifts the profile zone off center, such as '+U('0.3 total with 0.1 outside and 0.2 inside','0.012 total with 0.004 outside and 0.008 inside')+'.'],
+  ['ST','Statistical tolerance','Allows a larger tolerance when statistical process control is in use.'],
+  ['CF','Continuous feature','Treats separate-looking surfaces as one feature.'],
+  ['A ↔ B','Between','The control applies from point A to point B along the surface.'],
+  ['Circle on the leader','All around','The profile control wraps around the whole outline in the view.'],
+  ['Two circles on the leader','All over','The control applies to every surface of the part.']]),
+ P('The 2018 standard also introduced the translation modifier for datum features of size and the dynamic profile modifier. Consult the standard for the precise rules.')
+]);
+
+/* FORM */
+add('straightness','form','Straightness','straight','How straight a line element or the axis of a feature is.','straightness line element axis derived median line form no datum cylindrical zone',[
+ P('<b>Controls:</b> the straightness of a line element on a surface, or the derived median line (axis) of a feature of size. <b>Family:</b> form. <b>Datum:</b> none.'),
+ H('Zone'),
+ UL(['<b>Surface line elements</b>: two parallel lines, a distance t apart, in the plane of the view. Each line element is checked independently.','<b>Axis of a feature of size</b>: a cylinder of diameter t (when the frame has ⌀ and is attached to the size dimension).']),
+ DIA('straightAxis','The derived median line must stay inside the cylindrical zone.'),
+ FCF({s:'straight',t:'0.02'},'Straightness of a surface line element: '+U('0.02','0.001')+'.'),
+ FCF({s:'straight',d:true,t:'0.05',m:['M']},'Straightness of an axis, ⌀'+U('0.05','0.002')+' at MMC. Add the frame to the size dimension.'),
+ H('Notes'),
+ UL(['A surface-element tolerance is always RFS. An axis tolerance can use MMC or LMC and gets bonus.','Use it to keep long pins and shafts straighter than the envelope alone would require.','A per-unit value like '+U('<code>0.02/25</code> limits local straightness over any 25 mm length.','<code>0.001/1</code> limits local straightness over any 1 inch length.')]),
+ H('Inspection'),
+ P('Indicator traversed along the surface on a surface plate, a straight edge and feeler gauge, or CMM scanning with a best-fit line. For axes, a functional gage at the virtual condition.')
+]);
+
+add('flatness','form','Flatness','flat','How flat a surface is: it must lie between two parallel planes.','flatness surface two parallel planes form no datum unit basis surface plate',[
+ P('<b>Controls:</b> the flatness of a single surface (or of a center plane at MMC or LMC). <b>Family:</b> form. <b>Datum:</b> none.'),
+ DIA('flat','The surface must lie between two parallel planes t apart, at any orientation.'),
+ FCF({s:'flat',t:'0.05'},'Flatness: '+U('0.05','0.002')+'.'),
+ FCF({s:'flat',t:'0.05/25×25'},'Flatness with a per-unit area, restricting local flatness to any '+U('25 × 25','1 × 1')+' square.'),
+ H('Notes'),
+ UL(['The tolerance must be smaller than the size tolerance for the same surface.','The zone floats: it can tilt and move to fit the surface, so flatness says nothing about angle or position.','A surface that has a parallelism or profile tolerance is already controlled for flatness at least that much.']),
+ H('Inspection'),
+ P('Surface plate with an indicator or height gauge, optical flat for small precision surfaces, CMM point grid, or laser flatness. Fix the part on three supports so it does not rock.')
+]);
+
+add('circularity','form','Circularity (roundness)','circ','Every cross-section must lie between two concentric circles.','circularity roundness form ovality lobing cross section concentric circles no datum',[
+ P('<b>Controls:</b> roundness of a surface of revolution at each cross-section. <b>Family:</b> form. <b>Datum:</b> none.'),
+ DIA('circ','The profile of each cross-section sits between two concentric circles t apart (radially).'),
+ FCF({s:'circ',t:'0.02'},'Circularity: '+U('0.02','0.001')+' radial width at every cross-section.'),
+ UL(['Applies to cylinders, cones and spheres; for a sphere the cross-section passes through the center.','Controls lobing and ovality but not taper or bow, because each cross-section is checked alone.','The circles can float: the center need not lie on any axis.','Must be smaller than the size tolerance.']),
+ H('Inspection'),
+ P('A roundness tester is the right tool. V-blocks and indicators can mislead on parts with an odd number of lobes. CMM with many points per section also works.')
+]);
+
+add('cylindricity','form','Cylindricity','cyl','The whole surface must lie between two coaxial cylinders.','cylindricity form roundness straightness taper coaxial cylinders no datum bore piston',[
+ P('<b>Controls:</b> circularity, straightness and taper of a cylindrical surface together. <b>Family:</b> form. <b>Datum:</b> none.'),
+ DIA('cyl','The surface lies between two coaxial cylinders whose radii differ by t.'),
+ FCF({s:'cyl',t:'0.01'},'Cylindricity: '+U('0.01','0.0005')+' radial gap.'),
+ UL(['It is a combined form control, so it is stricter than circularity.','The zone floats, so it controls form only, not axis position or orientation.','No modifiers apply. Tolerance must be smaller than the size tolerance.','Typical use: cylinder bores, pistons, bearing journals and valve stems.']),
+ H('Inspection'),
+ P('Roundness tester with multiple sections plus straightness traces, or a scanning CMM. It takes more measurement effort than circularity, so use it only where seal or bearing fit demands it.')
+]);
+
+/* PROFILE */
+add('profile-line','profile','Profile of a line','pline','Controls a cross-section outline against a true profile.','profile of a line 2d cross section outline true profile bilateral datum optional',[
+ P('<b>Controls:</b> the shape of a line element at each cross-section, such as a wing or cam section. <b>Family:</b> profile. <b>Datum:</b> optional.'),
+ FCF({s:'pline',t:'0.4',r:['A','B']},'Profile of a line to datums A and B.'),
+ UL(['Works like '+L('profile-surface','profile of a surface')+' but only in the plane of the view, so each cross-section is checked alone.','Use it for parts with a changing section along the length, such as a tapered airfoil, where a 3D zone would be too strict.'])
+]);
+
+add('profile-surface','profile','Profile of a surface','psurf','Controls form, orientation, location and sometimes size of any surface.','profile of a surface 3d true profile basic dimensions all around between unilateral unequally disposed composite',[
+ P('<b>Controls:</b> a surface of any shape (flat, curved, or complex) against its theoretically exact shape. <b>Family:</b> profile. <b>Datum:</b> optional.'),
+ DIA('profile','Surface lies between two boundaries, t wide, centered on the true profile.'),
+ FCF({s:'psurf',t:'0.4',r:['A','B','C']},'Profile of a surface, '+U('0.4','0.016')+' zone, located by datums A, B and C.'),
+ H('How the zone works'),
+ UL(['<b>Bilateral and equal by default</b>: half the tolerance on each side of the true profile.','<b>Unilateral or unequal</b>: show with a note, or the circled U modifier.','<b>Without datums</b> it controls shape only (like a form tolerance). <b>With datums</b> it controls shape, orientation and location together.','<b>All around</b> and <b>between</b> symbols extend it along multiple surfaces.']),
+ H('Why it is useful'),
+ UL(['One control can replace flatness, parallelism, angularity and position of surfaces.','Applied to the surfaces of a feature of size, it also controls size.','Composite profile frames work like composite position frames.']),
+ NOTE('When a profile is not on a plane or cylinder, the true profile is given by basic dimensions or a CAD model with a "model governs" note.')
+]);
+
+/* ORIENTATION */
+add('perpendicularity','orient','Perpendicularity','perp','A surface or axis must stay square to a datum.','perpendicularity orientation 90 degrees datum axis surface tangent plane projected tolerance zone',[
+ P('<b>Controls:</b> how square a surface, axis or center plane is to a datum. <b>Family:</b> orientation. <b>Datum:</b> required.'),
+ DIA('perp','The surface lies between two parallel planes at 90° to datum A.'),
+ FCF({s:'perp',t:'0.1',r:['A']},'Perpendicularity of a surface to datum A.'),
+ FCF({s:'perp',d:true,t:'0.05',m:['M'],r:['A']},'Perpendicularity of a hole axis to datum A, ⌀'+U('0.05','0.002')+' at MMC.'),
+ H('Notes'),
+ UL(['The zone is oriented to the datum but floats in location, so perpendicularity alone says nothing about where the feature is.','On a surface, the tolerance also controls flatness to at least the same amount.','With MMC on an axis, bonus tolerance applies.','Add circled P for a projected zone on threaded or press-fit holes, and circled T to use the tangent plane.']),
+ H('Inspection'),
+ P('Part on a surface plate with an indicator on a height gauge or square, a CMM, or a functional gage for MMC holes.')
+]);
+
+add('parallelism','orient','Parallelism','par','A surface or axis must run parallel to a datum.','parallelism orientation datum surface axis plane two parallel planes',[
+ P('<b>Controls:</b> how parallel a surface, axis or center plane is to a datum. <b>Family:</b> orientation. <b>Datum:</b> required.'),
+ DIA('par','The surface lies between two planes parallel to datum A.'),
+ FCF({s:'par',t:'0.05',r:['A']},'Parallelism of a surface to datum A.'),
+ FCF({s:'par',d:true,t:'0.1',m:['M'],r:['A']},'Parallelism of an axis to datum A, ⌀'+U('0.1','0.004')+' at MMC.'),
+ UL(['A surface within a parallelism zone is also constrained in flatness (never worse than the zone).','The size tolerance still applies: the surface may not leave its size limits.','Axis tolerances use a cylinder; plane tolerances use two planes.','For a surface it is often equivalent to a profile of a surface with datum.'])
+]);
+
+add('angularity','orient','Angularity','ang','A surface or axis must hold a basic angle to a datum.','angularity orientation basic angle datum inclined plane sine bar',[
+ P('<b>Controls:</b> orientation of a surface or axis at an angle other than 0° or 90°. <b>Family:</b> orientation. <b>Datum:</b> required.'),
+ DIA('ang','Two parallel planes inclined at the basic angle to datum A.'),
+ FCF({s:'ang',t:'0.1',r:['A']},'Angularity to datum A. The angle is shown on the drawing as a basic dimension, such as '+basic('30°')+'.'),
+ UL(['Works like parallelism and perpendicularity: the zone has the basic angle to the datum but floats in location.','Axis tolerances with ⌀ use a tilted cylinder.','A surface is also controlled for flatness at least by the zone width.','Measure with a sine bar or sine plate and an indicator, or a CMM.'])
+]);
+
+/* LOCATION */
+add('position','loc','Position','pos','Where a hole, pin or slot sits, and how well it is oriented and straight.','position true position location axis center plane mmc lmc rfs cylinder hole pattern bonus',[
+ P('<b>Controls:</b> the location of the axis or center plane of a feature of size from its basic position. It also controls orientation and form of the axis. <b>Family:</b> location. <b>Datum:</b> required.'),
+ DIA('pos','The axis must stay inside a cylindrical zone at the true position set by basic dimensions.'),
+ FCF({s:'pos',d:true,t:'0.2',m:['M'],r:['A','B','C']},'Position of a hole axis: ⌀'+U('0.2','0.008')+' at MMC to datums A, B and C.'),
+ FCF({s:'pos',t:'0.1',m:['M'],r:['A','B']},'Position of a slot center plane: two parallel planes '+U('0.1','0.004')+' apart, at MMC.'),
+ H('How to check it'),
+ UL(['Measure the axis offset in X and Y from true position. The position error is <code>2 × √(dx² + dy²)</code>.','Compare it with the stated tolerance plus bonus (if MMC or LMC).','The size of the feature must also be inside its limits.']),
+ H('Notes'),
+ UL(['With MMC, the virtual condition lets a fixed gage check the part directly.','RFS is the default: add MMC or LMC only when the extra freedom is functional.','Use two frames (X and Y) when different tolerances are needed in two directions.','Use composite or stacked frames for patterns that need both location and refinement.']),
+ P('Calculator: '+L('bonus','see bonus tolerance')+' and the Tools tab.')
+]);
+
+add('concentricity','loc','Concentricity (legacy)','conc','Median points must lie on a datum axis. Not in ASME Y14.5-2018.','concentricity coaxiality median points datum axis iso 1101 legacy removed',[
+ P('<b>Controls (older ASME editions and ISO):</b> the derived median points of cross-sections of a feature must lie inside a cylinder around a datum axis. It is always RFS.'),
+ UL(['It is hard to measure, because the median points of every cross-section must be found.','It is not part of the ASME Y14.5-2018 symbol set.','Use '+L('position','position')+', '+L('runout-circular','runout')+' or '+L('profile-surface','profile')+' instead, depending on function.','ISO 1101 still defines concentricity (for points) and coaxiality (for axes).']),
+ WARN('If you meet this symbol on an old drawing, check which standard and edition it uses before interpreting it.')
+]);
+
+add('symmetry','loc','Symmetry (legacy)','sym','Median points of opposed features must lie on a center plane. Not in ASME Y14.5-2018.','symmetry median points center plane legacy removed iso 1101',[
+ P('<b>Controls (older ASME editions and ISO):</b> the median points of opposed elements of a feature must lie between two parallel planes centered on a datum plane. Always RFS.'),
+ UL(['Not in the ASME Y14.5-2018 symbol set. Use position or profile of a surface instead.','ISO 1101 still defines it.','Like concentricity, it needs median points, which makes it slow to inspect.'])
+]);
+
+/* RUNOUT */
+add('runout-circular','run','Circular runout','crun','Indicator movement at each cross-section as the part turns about a datum axis.','circular runout fim fir full indicator movement datum axis rotating shaft coaxiality',[
+ P('<b>Controls:</b> variation of a circular element on a surface of revolution (or a face) in one position at a time. <b>Family:</b> runout. <b>Datum:</b> a datum axis (or a plane for face runout).'),
+ DIA('runC','One cross-section at a time: full indicator movement must not exceed t.'),
+ FCF({s:'crun',t:'0.05',r:['A-B']},'Circular runout '+U('0.05','0.002')+' relative to the common datum axis A-B.'),
+ UL(['It combines circularity and coaxiality at each section.','On a flat face it combines circularity of the elements at that radius and perpendicularity to the axis.','The reading is full indicator movement (FIM) over one rotation; each section is checked on its own.','Always RFS. Datum features are usually bearing journals or centers.']),
+ H('Inspection'),
+ P('Mount the part on centers, in a collet, or on V-blocks that simulate the datum axis, and rotate it with an indicator at each position.')
+]);
+
+add('runout-total','run','Total runout','trun','Indicator movement over the whole surface while it travels along the part.','total runout fim cylinder face rotating shaft combined circularity straightness taper coaxiality',[
+ P('<b>Controls:</b> the entire surface at once while the part is rotated about a datum axis. <b>Family:</b> runout. <b>Datum:</b> a datum axis.'),
+ DIA('runT','The indicator travels the full length, without lifting, during rotation.'),
+ FCF({s:'trun',t:'0.1',r:['A-B']},'Total runout '+U('0.1','0.004')+' relative to datum axis A-B.'),
+ UL(['For a cylinder it combines coaxiality with cylindricity (circularity, straightness and taper together).','For a face it combines perpendicularity and flatness.','The zone is two coaxial cylinders (for a diameter) or two parallel planes square to the axis (for a face).','Always RFS.']),
+ TBL(['','Circular runout','Total runout'],[
+  ['Reads','One cross-section at a time','Whole surface in a single sweep'],
+  ['Controls (cylinder)','Circularity and coaxiality','Cylindricity and coaxiality'],
+  ['Strictness','Less strict','More strict']])
+]);
+
+/* PRACTICE */
+add('choose','prac','Which control should I use?','pos','A quick guide matching a functional need to a characteristic.','choose select guide decision which control use application',[
+ TBL(['Need','Use'],[
+  ['Surface is flat, with no relation to anything else','Flatness'],
+  ['Pin or bore is round and straight','Circularity and straightness, or cylindricity'],
+  ['A face must be square to another surface','Perpendicularity (or profile with datum)'],
+  ['A surface must be parallel to a base','Parallelism (or profile)'],
+  ['Hole or slot is in the right place','Position'],
+  ['Bolt pattern must fit a mating part','Position at MMC, possibly composite'],
+  ['Rotating part must run true on its bearings','Circular or total runout'],
+  ['Curved or complex surface must match a model','Profile of a surface'],
+  ['Keep a minimum wall thickness','Position or profile at LMC']]),
+ NOTE('Start from function: what has to fit, seal, align or balance? Pick the loosest control that still works, because every tighter tolerance costs money.')
+]);
+
+add('hierarchy','prac','Tolerance hierarchy and refinement','pos','Form is tighter than orientation, orientation is tighter than location, and size contains them.','refinement hierarchy form orientation location size rule tolerance zone nesting',[
+ P('Controls nest inside one another. A lower-level control should refine a higher-level one:'),
+ OL(['<b>Size</b> limits contain the feature (and with Rule #1 limit its form).','<b>Location</b> zone positions the feature from the datums.','<b>Orientation</b> zone is smaller than the location zone and floats inside it.','<b>Form</b> zone is the smallest and floats inside the orientation zone.']),
+ UL(['A form tolerance larger than the orientation tolerance for the same feature is pointless.','A flatness tolerance applied to a surface must be less than the size tolerance for that feature.','If the tolerances are the same, the more complete control (position, profile) already covers the rest.'])
+]);
+
+add('inspection','prac','Inspecting GD&T','pos','Datum setup, simulators, CMMs and functional gages.','inspection measurement cmm functional gage datum simulator surface plate uncertainty fim',[
+ OL(['<b>Establish the datum.</b> Simulate each datum feature with a surface plate, mandrel, collet, V-block or gage pin, in order of precedence.','<b>Measure the feature</b> relative to that setup.','<b>Compare</b> against the zone, including any bonus or datum shift.']),
+ H('Common tools'),
+ UL(['<b>Surface plate with height gauge and indicator</b>: flatness, parallelism, perpendicularity.','<b>Sine bar</b>: angularity.','<b>Centers or V-blocks</b>: runout.','<b>Roundness tester</b>: circularity and cylindricity.','<b>CMM</b>: almost everything, with software that builds the datum frame.','<b>Functional gage</b>: a hard gage built at the virtual condition for features with MMC; fast and robust on the shop floor.']),
+ H('Good practice'),
+ UL(['Measurement uncertainty should be a small fraction of the tolerance; a 10:1 ratio is a common target.','Probe enough points to see form error: two points will not find a lobed hole.','Check that datum features are accessible, or the inspector cannot set the part up as the designer intended.']),
+ P('ASME Y14.5.1 gives the mathematical definitions used by CMM software, and ASME Y14.43 covers gage design.')
+]);
+
+add('mistakes','prac','Common mistakes','pos','Frequent drawing and inspection errors, and how to avoid them.','mistakes errors pitfalls common wrong',[
+ OL(['<b>Plus/minus dimensions and position on the same hole.</b> Locate with basic dimensions.','<b>Datum letters in the wrong order.</b> The primary letter should match how the part actually seats.','<b>MMC on a surface.</b> Only features of size have a material condition.','<b>Form tolerance larger than the size tolerance</b> on the same feature.','<b>Using concentricity or symmetry</b> where position, runout or profile would be easier to inspect.','<b>Tight tolerances everywhere.</b> Decide which features are functional and loosen the rest.','<b>Missing basic dimensions</b>, leaving a feature undefined.','<b>Datum features that cannot be touched</b> by a fixture or probe.','<b>Misreading the ⌀ prefix.</b> No ⌀ means a band, not a cylinder.','<b>Not naming the standard.</b> Put the standard and edition in the drawing notes.'])
+]);
+
+add('checklist','prac','Drawing review checklist','pos','A quick list to check before releasing a drawing.','checklist review release drawing check',[
+ UL(['The governing standard and edition (such as ASME Y14.5-2018) is stated.','Datum features are identified, accessible and functional.','Datum reference frames have the right order, and features of size have the correct modifier.','Every located feature has basic dimensions.','Features of size have size limits.','Modifiers (M or L) are justified by function.','Patterns use the right count (such as 4X) and a simultaneous or separate note where needed.','Form is tighter than orientation, and orientation is tighter than location.','No redundant or conflicting controls.','Surface finish, material and heat treatment are called out separately (they are outside GD&T).'])
+]);
+
+add('iso-vs-asme','prac','ISO 1101 vs ASME Y14.5','pos','Where the two systems agree and where their defaults differ.','iso 1101 asme y14.5 differences independence envelope default gps comparison',[
+ TBL(['Topic','ASME Y14.5','ISO (GPS)'],[
+  ['Size and form default','Rule #1: envelope principle','Independence principle (ISO 8015)'],
+  ['Material condition default','RFS','Independent; MMR and LMR requirements must be stated'],
+  ['Modifiers','Circled M, L, P, T, F, I, U, ST','Circled M, L, P, F, E and others'],
+  ['Datum system','Datum reference frame, order matters','ISO 5459 datum systems'],
+  ['Concentricity, symmetry','Not in the 2018 symbol set','Still defined (coaxiality, symmetry)'],
+  ['Tolerance zone','Zone stated in the frame','Zone shape and extra specification elements in the frame'],
+  ['Mathematical definitions','ASME Y14.5.1','ISO 17450 series']]),
+ WARN('Do not mix conventions. A drawing should state one system. Check the notes or title block.')
+]);
+
+add('versions','prac','Standard history','pos','A short timeline of the ASME and ISO editions.','history versions editions 1966 1973 1982 1994 2009 2018 asme iso',[
+ TBL(['Edition','Notes'],[
+  ['USASI Y14.5-1966','First US standard for GD&T.'],
+  ['ANSI Y14.5-1973','Clarified and expanded the 1966 text.'],
+  ['ANSI Y14.5M-1982','Metric-friendly rewrite; expanded datum rules.'],
+  ['ASME Y14.5M-1994','Widely used for decades; Rule #2 and the circled S existed.'],
+  ['ASME Y14.5-2009','Dropped Rule #2 and the circled S: RFS became the universal default. Added new concepts such as datum targets for features of size.'],
+  ['ASME Y14.5-2018','Added the translation and dynamic profile modifiers and movable datum targets; more rigorous definitions. No concentricity or symmetry in the symbol set.'],
+  ['ISO 1101','Reissued in 1983, 2004, 2012 and 2017.']]),
+ P('Always check the edition on the drawing. A symbol or default can mean something different from one edition to the next.')
+]);
+
+/* ---------- symbol reference ---------- */
+const SYMS=[
+ ['Geometric characteristics',[
+  ['straight','Straightness','Form. Line element or axis.'],['flat','Flatness','Form. A single surface.'],['circ','Circularity','Form. Each cross-section.'],['cyl','Cylindricity','Form. Whole cylindrical surface.'],
+  ['pline','Profile of a line','Profile. A 2D outline.'],['psurf','Profile of a surface','Profile. A 3D surface.'],
+  ['ang','Angularity','Orientation. Basic angle.'],['perp','Perpendicularity','Orientation. 90° to datum.'],['par','Parallelism','Orientation. Parallel to datum.'],
+  ['pos','Position','Location. Axis or center plane.'],['conc','Concentricity','Legacy location. Not in Y14.5-2018.'],['sym','Symmetry','Legacy location. Not in Y14.5-2018.'],
+  ['crun','Circular runout','Runout. One section at a time.'],['trun','Total runout','Runout. Whole surface.']]],
+ ['Modifiers',[
+  [mod('M'),'MMC','Maximum material condition.'],[mod('L'),'LMC','Least material condition.'],[mod('P'),'Projected tolerance zone','Zone extends beyond the part.'],
+  [mod('F'),'Free state','Applies before restraint.'],[mod('T'),'Tangent plane','Uses the high-point plane.'],[mod('I'),'Independency','Turns off Rule #1.'],
+  [mod('U'),'Unequally disposed','Offsets the profile zone.'],['ST','Statistical tolerance','Allows SPC-based tolerance.'],['CF','Continuous feature','Treats surfaces as one feature.']]],
+ ['Dimension symbols',[
+  ['dia','Diameter','Round feature or cylindrical zone.'],['S⌀','Spherical diameter','Spherical feature or zone.'],['R','Radius','Standard radius.'],['SR','Spherical radius','Radius of a sphere.'],
+  ['CR','Controlled radius','Radius with no flats or reversals.'],['sq','Square','Square cross-section.'],['cbore','Counterbore or spotface','Stepped hole.'],['csink','Countersink','Conical hole.'],
+  ['deep','Depth','How deep a feature goes.'],['arc','Arc length','Length along a curve.'],['taper','Conical taper','Cone angle.'],['slope','Slope','Incline ratio.'],
+  [basic(U('25','1.000')),'Basic dimension','Theoretically exact.'],[U('(25)','(1.000)'),'Reference dimension','Information only.'],['4X','Number of places','Repeated feature count.'],['datum','Datum feature symbol','Boxed letter with triangle.'],['target','Datum target','Point, line or area.']]]
+];
+
+/* ---------- glossary ---------- */
+const GL=[
+ ['Actual local size','The value of any individual distance at a cross-section of a feature of size.'],
+ ['Basic dimension','Theoretically exact value that locates or defines a zone, shown in a box.'],
+ ['Bilateral tolerance','Tolerance allowed in both directions from the nominal.'],
+ ['Bonus tolerance','Extra geometric tolerance allowed as size departs from MMC (or LMC).'],
+ ['Boundary (inner and outer)','Perfect-form limits that a feature may not violate, such as an MMC envelope.'],
+ ['CMM','Coordinate measuring machine. Measures points and fits geometry to evaluate GD&T.'],
+ ['Common datum','Two datum features used together as one datum, written A-B.'],
+ ['Datum','A theoretically exact point, axis or plane from which measurements begin.'],
+ ['Datum feature','The real feature on the part used to establish a datum.'],
+ ['Datum feature simulator','A precise surface or device that stands in for the datum, such as a surface plate or mandrel.'],
+ ['Datum reference frame','Three perpendicular planes (up to three datums) used to constrain six degrees of freedom.'],
+ ['Datum shift','Allowed float of a part when a datum feature of size is referenced at MMC or LMC.'],
+ ['Datum target','A point, line or area on a part that is used as a datum where the full surface is unsuitable.'],
+ ['Degrees of freedom','The six independent ways a part can move: three translations and three rotations.'],
+ ['Derived median line','The line through the center points of cross-sections of a feature of size; the feature axis.'],
+ ['Derived median plane','The plane through the center points of opposed elements of a feature of size.'],
+ ['Envelope principle','Rule #1: a feature of size may not extend beyond a perfect-form boundary at MMC.'],
+ ['Feature','A physical portion of a part, such as a surface, hole or slot.'],
+ ['Feature control frame','The rectangular box carrying a symbol, tolerance, modifiers and datum references.'],
+ ['Feature of size','A cylindrical or spherical surface, or two opposed parallel surfaces, with a size dimension.'],
+ ['FIM (or FIR)','Full indicator movement, the difference between maximum and minimum indicator reading.'],
+ ['Free state','The condition of a flexible part when it is not restrained.'],
+ ['FRTZF','Feature-relating tolerance zone framework: the lower row of a composite frame.'],
+ ['GPS','Geometrical product specifications, the ISO system that includes GD&T.'],
+ ['LMC','Least material condition: the size limit at which the feature has the least material.'],
+ ['MMC','Maximum material condition: the size limit at which the feature has the most material.'],
+ ['Orientation tolerance','A tolerance that controls angle to a datum: perpendicularity, parallelism or angularity.'],
+ ['PLTZF','Pattern-locating tolerance zone framework: the upper row of a composite frame.'],
+ ['Position','The location of an axis or center plane relative to datums and basic dimensions.'],
+ ['Profile','A tolerance on the outline of a line or surface against a true profile.'],
+ ['Projected tolerance zone','A zone that extends beyond the feature to model a mating part.'],
+ ['Regardless of feature size (RFS)','The tolerance does not change with the actual size. The default in Y14.5-2009 and later.'],
+ ['Resultant condition','The worst-case boundary at the opposite size limit, including bonus.'],
+ ['Rule #1','See Envelope principle.'],
+ ['Runout','Surface variation measured with an indicator while the part rotates about a datum axis.'],
+ ['Simultaneous requirement','Several frames that reference the same datums are evaluated together.'],
+ ['Theoretically exact dimension','A basic dimension, with no tolerance.'],
+ ['Tolerance zone','The region within which a feature, axis or center plane must lie.'],
+ ['True position','The exact location of a feature as defined by basic dimensions.'],
+ ['Unilateral tolerance','A tolerance allowed in one direction only.'],
+ ['Virtual condition','The constant boundary from size plus geometric tolerance at MMC (or LMC).']
+];
+
+/* ---------- render ---------- */
+function fixDia(h){return h.replace(/⌀/g,icon('dia',14,'inl'));}
+function textOf(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||'';}
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9.\/\s-]/g,' ');
+
+const libEl=$('#lib');
+E.forEach(e=>{
+  const d=document.createElement('details');
+  d.className='entry si';d.id='e-'+e.id;d.dataset.cat=e.cat;
+  const body=fixDia(e.body), blurb=fixDia(e.blurb);
+  d.innerHTML='<summary><span class="eic">'+icon(e.ico,28)+'</span><span class="et"><strong>'+e.title+'</strong><span>'+blurb+'</span></span><span class="chev"></span></summary><div class="body">'+body+'</div>';
+  d.dataset.s=norm(e.title+' '+e.kw+' '+textOf(blurb)+' '+textOf(body));
+  libEl.appendChild(d);
+});
+
+const chipsEl=$('#chips');let curCat='all';
+CATS.forEach(c=>{const b=document.createElement('button');b.className='chip';b.dataset.cat=c[0];b.textContent=c[1];b.setAttribute('aria-pressed',c[0]==='all');chipsEl.appendChild(b);});
+chipsEl.addEventListener('click',ev=>{const b=ev.target.closest('.chip');if(!b)return;curCat=b.dataset.cat;$$('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));apply();});
+
+const symEl=$('#sym');
+SYMS.forEach(g=>{
+  const wrap=document.createElement('div');wrap.className='sgroup-wrap';
+  let h='<h3 class="sgroup">'+g[0]+'</h3><div class="sgrid">';
+  g[1].forEach(it=>{
+    const ico=SYM[it[0]]?icon(it[0],34):it[0];
+    const txt=fixDia(it[1]+' '+it[2]);
+    h+='<div class="scard si" data-s="'+norm(it[1]+' '+it[2]+' '+textOf(it[0]).replace(/<[^>]+>/g,''))+'"><div class="sico">'+ico+'</div><b>'+fixDia(it[1])+'</b><span>'+fixDia(it[2])+'</span></div>';
+  });
+  wrap.innerHTML=h+'</div>';symEl.appendChild(wrap);
+});
+
+const glEl=$('#gloss');
+GL.forEach(g=>{const w=document.createElement('div');w.className='si';w.dataset.s=norm(g[0]+' '+g[1]);w.innerHTML='<dt>'+g[0]+'</dt><dd>'+g[1]+'</dd>';glEl.appendChild(w);});
+
+/* ---------- hero anatomy ---------- */
+const ANAT=[
+ ['sym',icon('pos',34),'<b>Position.</b> The symbol says which characteristic is controlled. Position locates a feature, usually the axis of a hole or pin, from datums using basic dimensions.'],
+ ['tol',icon('dia',24)+'<span>'+U('0.2','0.008')+'</span>'+mod('M'),'<ul><li><b>⌀</b> means the zone is a cylinder. With no ⌀, the zone is a band between two parallel planes.</li><li><b>'+U('0.2','0.008')+'</b> is the total diameter of the zone, not plus/minus.</li><li><b>Circled M</b> means the tolerance applies at MMC, so unused size tolerance becomes bonus tolerance.</li></ul>'],
+ ['a','A','<b>Primary datum.</b> The part rests on this feature first. It orients the whole frame, touching the simulator at three points if it is a plane.'],
+ ['b','B','<b>Secondary datum.</b> The part is then pushed against this feature, touching at two points. The order of the letters matters.'],
+ ['c','C','<b>Tertiary datum.</b> The last stop, touching at one point. Together A, B and C fix all six degrees of freedom.']
+];
+const anat=$('#anat'),anatOut=$('#anat-out');
+function setAnat(i){
+  $$('#anat button').forEach((b,j)=>b.setAttribute('aria-pressed',j===i));
+  anatOut.innerHTML=fixDia(i<0?'Tap any box above. The frame reads left to right: <b>what is controlled</b>, <b>how big the zone is</b>, then <b>which datums it is measured from</b>.':ANAT[i][2]);
+}
+ANAT.forEach((a,i)=>{const b=document.createElement('button');b.className='cell';b.type='button';b.innerHTML=a[1];b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Explain box '+(i+1));b.addEventListener('click',()=>setAnat(i));anat.appendChild(b);});
+setAnat(-1);
+
+/* ---------- tabs, search, filter ---------- */
+let tab='lib';
+function setTab(t){
+  tab=t;
+  $$('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  ['lib','sym','tools','gloss'].forEach(x=>{$('#t-'+x).hidden=(x!==t);});
+  apply();
+  window.scrollTo({top:0});
+}
+$$('[data-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+
+const q=$('#q');
+function apply(){
+  const toks=norm(q.value).split(/\s+/).filter(Boolean);
+  const has=toks.length>0;
+  if(has&&tab==='tools'){tab='lib';$$('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='lib'));['lib','sym','tools','gloss'].forEach(x=>{$('#t-'+x).hidden=(x!=='lib');});}
+  const match=el=>toks.every(t=>el.dataset.s.indexOf(t)>-1);
+  // library
+  let n=0;
+  $$('#lib .entry').forEach(el=>{
+    const ok=(curCat==='all'||el.dataset.cat===curCat)&&match(el);
+    el.hidden=!ok;if(ok)n++;
+    if(has&&ok&&n<=6)el.open=true; else if(!has&&el.dataset.auto)el.open=false;
+    if(has&&ok&&n<=6)el.dataset.auto='1'; else delete el.dataset.auto;
+  });
+  $('#hero').hidden=has||curCat!=='all';
+  $('#lib-count').textContent=n+(n===1?' entry':' entries');
+  const le=$('#lib-empty');le.hidden=n>0;
+  if(!n)le.textContent='Nothing matches that search. Try a symbol name such as flatness, or a term such as bonus or datum.';
+  // symbols
+  let s=0;$$('#sym .si').forEach(el=>{const ok=match(el);el.hidden=!ok;if(ok)s++;});
+  $$('#sym .sgroup-wrap').forEach(w=>{w.hidden=!w.querySelector('.si:not([hidden])');});
+  $('#sym-count').textContent=s+(s===1?' symbol':' symbols');
+  const se=$('#sym-empty');se.hidden=s>0;if(!s)se.textContent='No symbol matches that search.';
+  // glossary
+  let g=0;$$('#gloss .si').forEach(el=>{const ok=match(el);el.hidden=!ok;if(ok)g++;});
+  $('#gloss-count').textContent=g+(g===1?' term':' terms');
+  const ge=$('#gloss-empty');ge.hidden=g>0;if(!g)ge.textContent='No glossary term matches that search.';
+}
+q.addEventListener('input',apply);
+
+function go(id){
+  q.value='';curCat='all';$$('.chip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.cat==='all'));
+  setTab('lib');
+  const el=document.getElementById('e-'+id);
+  if(!el)return;
+  el.open=true;
+  setTimeout(()=>el.scrollIntoView({block:'start'}),30);
+}
+document.addEventListener('click',ev=>{const a=ev.target.closest('[data-go]');if(a){ev.preventDefault();go(a.dataset.go);}});
+
+/* ---------- calculators ---------- */
+const val=id=>{const v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:v;};
+const f=(x,d)=>{d=d==null?4:d;return String(Math.round(x*Math.pow(10,d))/Math.pow(10,d));};
+const kv=(k,v)=>'<div class="kv"><span>'+k+'</span><b>'+v+'</b></div>';
+
+let UNIT='mm';
+const fu=x=>f(x)+' '+UNIT;
+const DEF={
+ mm:{c1lo:'10.00',c1hi:'10.20',c1act:'10.10',c1tol:'0.20',c1dx:'0.06',c1dy:'0.08',c2h:'8.40',c2f:'8.00',c3x:'0.10',c3y:'0.10',c4in:'0.10, 0.05, 0.15, 0.08'},
+ 'in':{c1lo:'0.500',c1hi:'0.510',c1act:'0.505',c1tol:'0.010',c1dx:'0.003',c1dy:'0.004',c2h:'0.344',c2f:'0.3125',c3x:'0.005',c3y:'0.005',c4in:'0.004, 0.002, 0.006, 0.003'}
+};
+function calc1(){
+  const out=$('#c1out');
+  const internal=$('#c1type').value==='int',m=$('#c1mod').value;
+  const lo=val('c1lo'),hi=val('c1hi'),act=val('c1act'),tol=val('c1tol'),dx=val('c1dx'),dy=val('c1dy');
+  if(lo===null||hi===null||act===null||tol===null||hi<lo){out.innerHTML='<p class="muted">Enter the size limits, the actual size and the stated tolerance.</p>';return;}
+  const mmc=internal?lo:hi,lmc=internal?hi:lo;
+  const sizeOK=act>=lo-1e-9&&act<=hi+1e-9;
+  let bonus=0;
+  if(m==='M')bonus=Math.abs(act-mmc);else if(m==='L')bonus=Math.abs(act-lmc);
+  const total=tol+bonus;
+  let vc='not defined (RFS)';
+  if(m==='M')vc=fu(internal?mmc-tol:mmc+tol);
+  if(m==='L')vc=fu(internal?lmc+tol:lmc-tol);
+  let h=kv('MMC size',fu(mmc))+kv('LMC size',fu(lmc))+kv('Bonus tolerance',fu(bonus))+kv('Total position tolerance (Ø)',fu(total))+kv('Virtual condition',vc);
+  if(!sizeOK)h+='<div class="verdict bad">Actual size is outside the size limits. The part fails regardless of position.</div>';
+  if(dx!==null&&dy!==null){
+    const pos=2*Math.hypot(dx,dy);
+    const pass=sizeOK&&pos<=total+1e-9;
+    h+=kv('Measured position error (Ø)',fu(pos));
+    h+='<div class="verdict '+(pass?'ok':'bad')+'">'+(pass?'Pass: ':'Fail: ')+'position Ø'+fu(pos)+' vs allowed Ø'+fu(total)+'</div>';
+  }
+  const mid=(lo+hi)/2;
+  const bAt=s=>m==='M'?Math.abs(s-mmc):(m==='L'?Math.abs(s-lmc):0);
+  h+='<div class="tbl"><table><thead><tr><th>Size ('+UNIT+')</th><th>Bonus</th><th>Allowed Ø</th></tr></thead><tbody>'+[lo,mid,hi].map(s=>'<tr><td>'+f(s)+'</td><td>'+f(bAt(s))+'</td><td>'+f(tol+bAt(s))+'</td></tr>').join('')+'</tbody></table></div>';
+  out.innerHTML=h;
+}
+function calc2(){
+  const out=$('#c2out'),fixed=$('#c2type').value==='fixed',H_=val('c2h'),F=val('c2f');
+  if(H_===null||F===null){out.innerHTML='<p class="muted">Enter both sizes.</p>';return;}
+  const T=fixed?(H_-F)/2:H_-F;
+  let h=kv('Formula',fixed?'T = (H − F) / 2':'T = H − F')+kv('Position tolerance at MMC (Ø)',fu(T));
+  if(T<0)h+='<div class="verdict bad">Negative result: the fastener is larger than the hole at MMC, so there is no clearance.</div>';
+  else h+='<div class="verdict ok">Use Ø'+fu(T)+' at MMC or smaller.</div>';
+  out.innerHTML=h;
+}
+function calc3(){
+  const out=$('#c3out'),x=val('c3x'),y=val('c3y');
+  if(x===null||y===null||x<=0||y<=0){out.innerHTML='<p class="muted">Enter positive plus/minus values.</p>';return;}
+  const dia=2*Math.hypot(x,y),inner=2*Math.min(x,y);
+  const ratio=Math.PI*Math.pow(dia/2,2)/(4*x*y);
+  out.innerHTML=kv('Square zone',f(2*x)+' × '+f(2*y)+' '+UNIT)+kv('Cylinder that contains the square (Ø)',fu(dia))+kv('Cylinder inside the square (Ø)',fu(inner))+kv('Area of containing cylinder vs square',f(ratio*100,0)+'%');
+}
+function calc4(){
+  const out=$('#c4out');
+  const nums=$('#c4in').value.split(/[\s,;]+/).map(parseFloat).filter(n=>!isNaN(n)).map(Math.abs);
+  if(!nums.length){out.innerHTML='<p class="muted">Enter at least one tolerance.</p>';return;}
+  const wc=nums.reduce((a,b)=>a+b,0),rss=Math.sqrt(nums.reduce((a,b)=>a+b*b,0));
+  out.innerHTML=kv('Contributors',nums.length)+kv('Worst case','±'+fu(wc)+' (range '+fu(2*wc)+')')+kv('RSS','±'+fu(rss)+' (range '+fu(2*rss)+')');
+}
+const CALCS=[['tool1',calc1],['tool2',calc2],['tool3',calc3],['tool4',calc4]];
+function labelUnits(){
+  $$('[data-base]').forEach(l=>{l.textContent=l.dataset.base+', '+UNIT;});
+  document.body.classList.toggle('imp',UNIT==='in');
+}
+function setUnits(imperial){
+  const next=imperial?'in':'mm';
+  if(next===UNIT)return;
+  const old=UNIT,k=old==='mm'?1/25.4:25.4,dp=next==='in'?4:3;
+  const conv=v=>String(Math.round(v*k*Math.pow(10,dp))/Math.pow(10,dp));
+  Object.keys(DEF[old]).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el.value.trim()===DEF[old][id]){el.value=DEF[next][id];return;}
+    if(id==='c4in'){el.value=el.value.replace(/\d*\.?\d+/g,m=>conv(parseFloat(m)));return;}
+    const v=parseFloat(el.value);
+    if(!isNaN(v))el.value=conv(v);
+  });
+  UNIT=next;labelUnits();CALCS.forEach(p=>p[1]());
+}
+CALCS.forEach(p=>{$('#'+p[0]).addEventListener('input',p[1]);$('#'+p[0]).addEventListener('change',p[1]);});
+const imp=$('#imp');
+imp.addEventListener('change',()=>{setUnits(imp.checked);try{localStorage.setItem('gdtUnits',imp.checked?'in':'mm');}catch(e){}});
+labelUnits();CALCS.forEach(p=>p[1]());
+try{if(localStorage.getItem('gdtUnits')==='in'){imp.checked=true;setUnits(true);}}catch(e){}
+
+apply();
+})();
+</script>
+</body>
+</html>
